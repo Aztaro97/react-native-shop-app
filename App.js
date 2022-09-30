@@ -3,15 +3,22 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeBaseProvider, Box, Center } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./src/screens/homeScreen";
 import OnBoardScreen from "./src/screens/onBoardScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoginScreen from "./src/screens/loginScreen";
+import RegisterScreen from "./src/screens/registerScreen";
+import DrawerContentScreen from "./src/screens/drawerContentScreen";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import MainTabsScreen from "./src/screens/MainTabsScreen";
+import RootStackScreen from "./src/screens/rootStackScreen";
 
-const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
+  const isAuthenticated = true;
 
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
@@ -25,17 +32,24 @@ export default function App() {
   }, []);
 
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="OnBoarding"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="OnBoarding" component={OnBoardScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      {/* <StatusBar style="auto" /> */}
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        {isAuthenticated ? (
+          <Drawer.Navigator
+            initialRouteName="HomeDrawer"
+            drawerContent={(props) => <DrawerContentScreen {...props} />}
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Drawer.Screen name="HomeDrawer" component={MainTabsScreen}  />
+            {/* <Drawer.Screen name="Login" component={LoginScreen} /> */}
+            <Drawer.Screen name="Register" component={RegisterScreen} />
+          </Drawer.Navigator>
+        ) : (
+          <RootStackScreen />
+        )}
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }

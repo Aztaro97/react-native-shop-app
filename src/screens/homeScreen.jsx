@@ -1,13 +1,25 @@
-import { Box } from "native-base";
+import { Box, Button, Text } from "native-base";
 import React from "react";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
-    <Box flex={1}>
-      <Center flex={1}>
-        {/* <Text>Hello word</Text> */}
-		hello word
-      </Center>
+    <Box
+      flex={1}
+      justifyContent="center"
+      alignItems={"center"}
+      backgroundColor="#111"
+    >
+      <Text color="#fff" fontSize={40}>
+        Hello word
+      </Text>
+      <Button
+        color="#fff"
+        fontSize={40}
+        onPress={() => navigation.navigate("Register")}
+		// onPress={() => console.log(navigation)}
+      >
+        Open Drawer
+      </Button>
     </Box>
   );
 };

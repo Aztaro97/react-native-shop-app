@@ -21,21 +21,27 @@ const SkipComponent = ({ ...props }) => {
   );
 };
 
-const OnBoardScreen = ({ navigator }) => {
+const OnBoardScreen = ({ navigation }) => {
   return (
     <Onboarding
       NextButtonComponent={NextComponent}
       SkipButtonComponent={SkipComponent}
+      onSkip={() => navigation.navigate("Login")}
+      onDone={() => navigation.navigate("Login")}
       pages={[
         {
           backgroundColor: Color.primary,
-          image: <Image source={require("../assets/onBoardImageOne.png")} />,
+          image: (
+            <Image source={require("../assets/onBoardImageOne.png")} alt="" />
+          ),
           title: "Onboarding",
           subtitle: "Done with React Native Onboarding Swiper",
         },
         {
           backgroundColor: Color.secondary,
-          image: <Image source={require("../assets/onBoardImageOne.png")} />,
+          image: (
+            <Image source={require("../assets/onBoardImageTwo.png")} alt="" />
+          ),
           title: "Onboarding",
           subtitle: "Done with React Native Onboarding Swiper",
         },

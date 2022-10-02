@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator();
 const MainTabsScreen = () => {
   return (
     <Tab.Navigator
-        initialRouteName="HomeTab"
+      initialRouteName="HomeTab"
       screenOptions={{
         tabBarActiveBackgroundColor: "#fff",
         tabBarStyle: {
@@ -32,13 +32,12 @@ const MainTabsScreen = () => {
           bottom: 16,
           right: 16,
           left: 16,
-          //   elevation: 0,
           borderRadius: 15,
-          height: 60,
+          height: 50,
         },
-        tabBarActiveTintColor: Color.primary,
         tabBarInactiveTintColor: Color.secondary,
         tabBarShowLabel: false,
+        headerShown: false,
       }}
     >
       <Tab.Screen
@@ -103,15 +102,19 @@ const FavoritesStackScreen = () => {
     >
       <HomeStack.Screen name="Favorite" component={FavoritesScreen} />
       <HomeStack.Screen name="Checkout" component={CheckOutScreen} />
+      <HomeStack.Screen name="Delivery" component={DeliveryScreen} />
     </HomeStack.Navigator>
   );
 };
 
 const ProfilesStackScreen = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <HomeStack.Screen name="Profile" component={ProfileScreen} />
-      <HomeStack.Screen name="Delivery" component={DeliveryScreen} />
       <HomeStack.Screen name="Setting" component={SettingScreen} />
       <HomeStack.Screen name="Orders" component={OrdersScreen} />
       <HomeStack.Screen name="Reset-Password" component={ResetPasswordScreen} />

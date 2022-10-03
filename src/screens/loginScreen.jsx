@@ -10,7 +10,11 @@ import {
   Text,
   useColorModeValue,
   View,
+  VStack,
+  KeyboardAvoidingView,
+  HStack,
 } from "native-base";
+import { Platform } from "react-native";
 import React, { useState } from "react";
 import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -34,49 +38,45 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ flex: 1 }}>
-      <Box flex={1} justifyContent="center" backgroundColor={Color.primary}>
-        <Heading
-          // animation="slideInDown"
-          // iterationCount={5}
-          // direction="alternate"
-          size={"4xl"}
-          px="10"
-          mb="4"
-          mt="20"
-          color={"#fff"}
-        >
-          Welcome back
-        </Heading>
-        <MotiView
-          from={{
-            opacity: 0,
-            scale: 0.8,
-            translateY: 800,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            translateY: 0,
-          }}
-          transition={{
-            loop: false,
-            type: "timing",
-            duration: 1500,
-            delay: 100,
-          }}
-          style={{ backgroundColor: "#fff", borderRadius: 20, padding: 20 }}
-        >
-          <View
+    <Box flex={1} justifyContent="space-between" bg={Color.primary}>
+      <Heading size={"4xl"} fontWeight="bold" lineHeight={60} px="10" mb="4" mt="20" color="#fff">
+        Welcome back
+      </Heading>
+      <MotiView
+        from={{
+          opacity: 0,
+          scale: 0.8,
+          translateY: 800,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          translateY: 0,
+        }}
+        transition={{
+          loop: false,
+          type: "timing",
+          duration: 1500,
+          delay: 100,
+        }}
+        style={{
+          backgroundColor: "#fff",
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          padding: 20,
+        }}
+      >
+        <KeyboardAwareScrollView>
+          <Box
             flex={1}
             py="5"
+            h={500}
             px="10"
-            borderTopRadius="3xl"
             bg={useColorModeValue("#fff", "gray.800")}
           >
-            <Text fontSize="3xl" fontWeight={"bold"}>
+            <Heading fontSize="3xl" fontWeight={"bold"}>
               Login
-            </Text>
+            </Heading>
             <Stack space={4} mt="4">
               <FormControl isRequired>
                 <Controller
@@ -90,6 +90,7 @@ const LoginScreen = ({ navigation }) => {
                     <Box>
                       <Input
                         type="text"
+                        size={"lg"}
                         placeholder="Enter the Email"
                         w="100%"
                         variant={"underlined"}
@@ -125,6 +126,7 @@ const LoginScreen = ({ navigation }) => {
                     <Box>
                       <Input
                         type={showPwd ? "text" : "password"}
+                        size={"lg"}
                         placeholder="Enter the Password"
                         w="100%"
                         variant={"underlined"}
@@ -149,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
                 />
               </FormControl>
 
-              <Pressable onPress={() => navigation.navigate("Home")}>
+              <Pressable onPress={() => navigation.navigate("ResetPassword")}>
                 <Text color={Color.primary}>Forgot passcode? </Text>
               </Pressable>
 
@@ -173,10 +175,10 @@ const LoginScreen = ({ navigation }) => {
                 </Pressable>
               </Center>
             </Stack>
-          </View>
-        </MotiView>
-      </Box>
-    </KeyboardAwareScrollView>
+          </Box>
+        </KeyboardAwareScrollView>
+      </MotiView>
+    </Box>
   );
 };
 

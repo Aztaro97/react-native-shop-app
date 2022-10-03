@@ -3,14 +3,14 @@ import React from "react";
 
 const RegisterScreen = ({ navigation }) => {
   return (
-    <Box>
+    <Box flex={1} alignItems={"center"} justifyContent="center">
       <Button
         color="#fff"
         fontSize={40}
         onPress={() => navigation.openDrawer()}
         // onPress={() => console.log(navigation)}
       >
-        Open Drawer
+        Reset
       </Button>
     </Box>
   );

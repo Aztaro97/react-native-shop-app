@@ -89,17 +89,15 @@ const LoginScreen = ({ navigation }: Props) => {
       <MotiView
         from={{
           opacity: 0.5,
-          scale: 0.5,
           translateY: 800,
         }}
         animate={{
           opacity: 1,
-          scale: 1,
           translateY: 0,
         }}
         transition={{
           type: "timing",
-          duration: 1500,
+          duration: 2000,
           delay: 800,
         }}
       >

@@ -8,10 +8,13 @@ import {
   View,
   Heading,
   ScrollView,
+  Pressable,
+  FlatList,
 } from "native-base";
 import React, { useState } from "react";
 import { EvilIcons, Octicons } from "@expo/vector-icons";
 import { Color } from "../../constants/Color";
+import ProductCard from "../../components/ProductCard";
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -21,37 +24,81 @@ const HomeScreen = ({ navigation }) => {
         Order online {"\n"}collect in store
       </Heading>
       <Tabulation />
+      <ListProduct />
     </Box>
   );
 };
 
 const Tabulation = () => {
+  const [active, setActive] = useState(0);
+
+  const tabsAData = [
+    "All",
+    "Wearable",
+    "Laptops",
+    "Phones",
+    "Drones",
+    "Cameras",
+    "Accessories",
+  ];
+
   return (
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} px={5}>
-      {/* <HStack space={4}> */}
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      <Button h={20} w={100} mx={3}>
-        hello
-      </Button>
-      {/* </HStack> */}
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      px={2}
+      mt={5}
+    >
+      <HStack space={4}>
+        {tabsAData.map((tab, index) => (
+          <Pressable key={index} onPress={() => setActive(index)}>
+            <Text
+              fontSize={20}
+              bold
+              pb={1}
+              color={active === index ? Color.primary : "##9A9A9D"}
+              borderBottomWidth={active === index ? 2 : 0}
+              borderBottomColor={active === index ? Color.primary : "##9A9A9D"}
+            >
+              {tab}
+            </Text>
+          </Pressable>
+        ))}
+      </HStack>
     </ScrollView>
+  );
+};
+
+const ListProduct = () => {
+  const productsData = [
+    {
+      name: "Hello",
+      image: require("../../assets/watch.png"),
+      details: "lorem upsum	",
+      price: 100,
+    },
+    {
+      name: "Hello",
+      image: require("../../assets/watch.png"),
+      details: "lorem upsum	",
+      price: 100,
+    },
+    {
+      name: "Hello",
+      image: require("../../assets/watch.png"),
+      details: "lorem upsum	",
+      price: 100,
+    },
+  ];
+
+  return (
+    <FlatList
+      contentContainerStyle={{ marginTop: 20 }}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      data={productsData}
+      renderItem={({ item }) => <ProductCard {...item} />}
+    />
   );
 };
 

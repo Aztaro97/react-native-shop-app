@@ -27,7 +27,7 @@ const AuthRoutes = () => {
   }, []);
   return (
     <>
-      {!isAuthenticated ? (
+      {isAuthenticated ? (
         <Drawer.Navigator
           initialRouteName="HomeDrawer"
           drawerContent={(props) => <DrawerContentScreen {...props} />}

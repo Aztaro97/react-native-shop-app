@@ -9,43 +9,87 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  View,
-  VStack,
   KeyboardAvoidingView,
-  HStack,
 } from "native-base";
-import { Platform } from "react-native";
-import React, { useState } from "react";
+import { Platform, Dimensions } from "react-native";
+import React, { FC, useState } from "react";
 import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as Animatable from "react-native-animatable";
-import { MotiView } from "moti";
+import { AnimatePresence, MotiView, motify, MotiText } from "moti";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginSchema } from "../utils/validationSchema";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { LoginSchema } from "../../utils/validationSchema";
 
-import { Color } from "../Color";
+import { Color } from "../../constants/Color";
+import { HomeDrawerParamsList, RootStackParamList } from "../../types/navs";
+import { CompositeScreenProps } from "@react-navigation/native";
+import { DrawerScreenProps } from "@react-navigation/drawer";
+import { NBMotiView } from "../../components/animation";
 
-const LoginScreen = ({ navigation }) => {
-  const [showPwd, setShowPwd] = useState(false);
+const { height, width } = Dimensions.get("window");
 
-  const { handleSubmit, control } = useForm({
+type UserLoginProps = {
+  email: string;
+  password: string;
+};
+
+// type Props = CompositeScreenProps<
+//   DrawerScreenProps<HomeDrawerParamsList>,
+//   NativeStackScreenProps<RootStackParamList, "Login">
+// >;
+
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
+
+const LoginScreen = ({ navigation }: Props) => {
+  const [showPwd, setShowPwd] = useState<boolean>(false);
+
+  const { handleSubmit, control } = useForm<UserLoginProps>({
     resolver: yupResolver(LoginSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: UserLoginProps): void => {
     console.log(data);
   };
 
   return (
-    <Box flex={1} justifyContent="space-between" bg={Color.primary}>
-      <Heading size={"4xl"} fontWeight="bold" lineHeight={60} px="10" mb="4" mt="20" color="#fff">
-        Welcome back
-      </Heading>
-      <MotiView
+    <Box flex={1} justifyContent="space-between" bg={Color.primary} safeArea>
+      <MotiText
         from={{
           opacity: 0,
-          scale: 0.8,
+          scale: 0.5,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+        }}
+        transition={{
+          type: "timing",
+          duration: 1000,
+          delay: 100,
+        }}
+        style={{
+          marginTop: 50,
+          marginLeft: 20,
+        }}
+      >
+        <Heading
+          fontSize={70}
+          fontWeight="bold"
+          lineHeight={65}
+          px="10"
+          mb="4"
+          mt="20"
+          color="#fff"
+          position={"relative"}
+        >
+          Welcome back
+        </Heading>
+      </MotiText>
+      <MotiView
+        from={{
+          opacity: 0.5,
+          scale: 0.5,
           translateY: 800,
         }}
         animate={{
@@ -54,26 +98,24 @@ const LoginScreen = ({ navigation }) => {
           translateY: 0,
         }}
         transition={{
-          loop: false,
           type: "timing",
           duration: 1500,
-          delay: 100,
-        }}
-        style={{
-          backgroundColor: "#fff",
-          borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
-          padding: 20,
+          delay: 800,
         }}
       >
-        <KeyboardAwareScrollView>
-          <Box
-            flex={1}
-            py="5"
-            h={500}
-            px="10"
-            bg={useColorModeValue("#fff", "gray.800")}
-          >
+        <KeyboardAvoidingView
+          h={{
+            base: height / 1.5,
+            lg: "auto",
+          }}
+          behavior={Platform.OS === "ios" ? "padding" : "padding"}
+          bg={useColorModeValue("#fff", "gray.800")}
+          borderTopLeftRadius={30}
+          borderTopRightRadius={30}
+          py="5"
+          px="10"
+        >
+          <Box flex={1}>
             <Heading fontSize="3xl" fontWeight={"bold"}>
               Login
             </Heading>
@@ -157,6 +199,7 @@ const LoginScreen = ({ navigation }) => {
 
               <Button
                 w="100%"
+                mt={5}
                 py="4"
                 _text={{ fontSize: "xl", fontWeight: "bold" }}
                 bg={Color.primary}
@@ -176,7 +219,7 @@ const LoginScreen = ({ navigation }) => {
               </Center>
             </Stack>
           </Box>
-        </KeyboardAwareScrollView>
+        </KeyboardAvoidingView>
       </MotiView>
     </Box>
   );

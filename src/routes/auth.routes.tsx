@@ -1,15 +1,17 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React, { useEffect, useState } from "react";
-import DrawerContentScreen from "../screens/drawerContentScreen";
-import MainTabsScreen from "../screens/MainTabsScreen";
-import RegisterScreen from "../screens/registerScreen";
-import RootStackScreen from "../screens/rootStackScreen";
+import DrawerContentScreen from "../screens/drawerContentScreen/drawerContentScreen";
+import MainTabsScreen from "../screens/mainTabsScreen/MainTabsScreen";
+import RegisterScreen from "../screens/registerScreen/registerScreen";
+import LoginScreen from "../screens/loginScreen/loginScreen";
+import RootStackScreen from "../screens/rootStackScreen/rootStackScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { HomeDrawerParamsList } from "../types/navs";
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<HomeDrawerParamsList>();
 
 const AuthRoutes = () => {
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean>(false);
 
   const isAuthenticated = true;
 
@@ -34,7 +36,7 @@ const AuthRoutes = () => {
           }}
         >
           <Drawer.Screen name="HomeDrawer" component={MainTabsScreen} />
-          {/* <Drawer.Screen name="Login" component={LoginScreen} /> */}
+          <Drawer.Screen name="Login" component={LoginScreen} />
           <Drawer.Screen name="Register" component={RegisterScreen} />
         </Drawer.Navigator>
       ) : (

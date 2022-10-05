@@ -3,20 +3,25 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MaterialIcons, FontAwesome5, Feather } from "@expo/vector-icons";
 
-import HomeScreen from "./homeScreen";
-import FavoritesScreen from "./favoriteScreen";
-import OrdersScreen from "./orderScreen";
-import CartScreen from "./cartScreen";
-import SettingScreen from "./settingScreen";
-import ProfileScreen from "./profileScreen";
-import DeliveryScreen from "./deliveryScreen";
-import CheckOutScreen from "./checkOutScreen";
-import ResetPasswordScreen from "./resetPasswordScreen";
+import HomeScreen from "../homeScreen/homeScreen";
+import FavoritesScreen from "../favoriteScreen/favoriteScreen";
+import OrdersScreen from "../orderScreen/orderScreen";
+import CartScreen from "../cartScreen/cartScreen";
+import SettingScreen from "../settingScreen/settingScreen";
+import ProfileScreen from "../profileScreen/profileScreen";
+import DeliveryScreen from "../deliveryScreen/deliveryScreen";
+import CheckOutScreen from "../checkOutScreen/checkOutScreen";
+import ResetPasswordScreen from "../resetPassword/resetPasswordScreen";
 
-import { Color } from "../Color";
+import { Color } from "../../constants/Color";
+import { RootStackParamList, RootTabParamList } from "../../types/navs";
 
-const HomeStack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+interface MainTabsScreenProps {
+  navigation: any;
+}
+
+const HomeStack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const MainTabsScreen = () => {
   return (
@@ -84,13 +89,13 @@ const MainTabsScreen = () => {
   );
 };
 
-const HomeStackScreen = () => {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
-    </HomeStack.Navigator>
-  );
-};
+// const HomeStackScreen = () => {
+//   return (
+//     <HomeStack.Navigator>
+//       <HomeStack.Screen name="Home" component={HomeScreen} />
+//     </HomeStack.Navigator>
+//   );
+// };
 
 const FavoritesStackScreen = () => {
   return (
@@ -117,7 +122,7 @@ const ProfilesStackScreen = () => {
       <HomeStack.Screen name="Profile" component={ProfileScreen} />
       <HomeStack.Screen name="Setting" component={SettingScreen} />
       <HomeStack.Screen name="Orders" component={OrdersScreen} />
-      <HomeStack.Screen name="Reset-Password" component={ResetPasswordScreen} />
+      <HomeStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
     </HomeStack.Navigator>
   );
 };

@@ -18,10 +18,11 @@ import {
   MaterialIcons,
   Ionicons,
 } from "@expo/vector-icons";
-import { Color } from "../Color";
-import ThemeToggle from "../components/themeToggle";
+import { Color } from "../../constants/Color";
+import ThemeToggle from "../../components/themeToggle";
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
-const DrawerContentScreen = (props) => {
+const DrawerContentScreen = (props: DrawerContentComponentProps) => {
   return (
     <Box flex={1} bg={useColorModeValue(Color.primary, "gray.500")} safeArea>
       <DrawerContentScrollView {...props}>
@@ -61,7 +62,7 @@ const DrawerContentScreen = (props) => {
   );
 };
 
-const DrawerNavigation = (props) => {
+const DrawerNavigation = (props: DrawerContentComponentProps) => {
   return (
     <VStack space={4} mt={10}>
       <DrawerItem

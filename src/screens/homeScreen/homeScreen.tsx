@@ -7,9 +7,11 @@ import {
   Icon,
   View,
   Heading,
+  ScrollView,
 } from "native-base";
 import React, { useState } from "react";
 import { EvilIcons, Octicons } from "@expo/vector-icons";
+import { Color } from "../../constants/Color";
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -18,7 +20,38 @@ const HomeScreen = ({ navigation }) => {
       <Heading mt={30} fontSize={40} fontWeight={"bold"}>
         Order online {"\n"}collect in store
       </Heading>
+      <Tabulation />
     </Box>
+  );
+};
+
+const Tabulation = () => {
+  return (
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} px={5}>
+      {/* <HStack space={4}> */}
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      <Button h={20} w={100} mx={3}>
+        hello
+      </Button>
+      {/* </HStack> */}
+    </ScrollView>
   );
 };
 
@@ -26,7 +59,12 @@ const HomeHeader = ({ navigation }) => {
   const [search, setSearch] = useState("");
 
   return (
-    <HStack w="100%" space={3} alignItems="center" justifyContent={"space-between"}>
+    <HStack
+      w="100%"
+      space={3}
+      alignItems="center"
+      justifyContent={"space-between"}
+    >
       <Icon
         size={8}
         as={<Octicons name="three-bars" color="black" />}
@@ -36,9 +74,9 @@ const HomeHeader = ({ navigation }) => {
         placeholder="Search"
         fontSize={18}
         variant="rounded"
-        w="100%"
+        w="full"
         px="4"
-        maxWidth="250px"
+        maxWidth="280px"
         InputLeftElement={
           <Icon
             ml="4"
@@ -48,6 +86,7 @@ const HomeHeader = ({ navigation }) => {
           />
         }
         onChangeText={(text) => setSearch(text)}
+        _focus={{ borderColor: Color.primary, backgroundColor: "gray.100" }}
       />
     </HStack>
   );

@@ -3,22 +3,22 @@ import { extendTheme } from "native-base";
 const config = {
   useSystemColorMode: false,
   initialColorMode: "light",
+};
 
-  fontConfig: {
-    Raleway: {
-      200: {
-        normal: "Raleway_200ExtraLight",
-      },
+const fontConfig = {
+  Raleway: {
+    200: {
+      normal: "Raleway_200ExtraLight",
+    },
 
-      400: {
-        normal: "Raleway_400Regular",
-      },
-      600: {
-        normal: "Raleway_600SemiBold",
-      },
-      700: {
-        normal: "Raleway_700Bold",
-      },
+    400: {
+      normal: "Raleway_400Regular",
+    },
+    600: {
+      normal: "Raleway_600SemiBold",
+    },
+    700: {
+      normal: "Raleway_700Bold",
     },
   },
 };
@@ -46,23 +46,8 @@ const fonts = {
 };
 
 export default extendTheme({
-  fontConfig: {
-    Raleway: {
-      200: {
-        normal: "Raleway_200ExtraLight",
-      },
-
-      400: {
-        normal: "Raleway_400Regular",
-      },
-      600: {
-        normal: "Raleway_600SemiBold",
-      },
-      700: {
-        normal: "Raleway_700Bold",
-      },
-    },
-  },
+  config,
   colors,
   fonts,
+  fontConfig,
 });

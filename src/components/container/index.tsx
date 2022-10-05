@@ -3,7 +3,6 @@ import { Heading, NativeBaseProvider, View } from "native-base";
 import React, { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { AnimatePresence } from "moti";
-import AppLoading from "expo-app-loading";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -17,10 +16,14 @@ import {
 import theme from "../../theme";
 import { Text } from "react-native";
 
+interface Props {
+  children: React.ReactNode;
+}
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
-const AppContainer = ({ children }) => {
+const AppContainer = ({ children }: Props) => {
   let [fontsLoaded] = useFonts({
     Raleway_200ExtraLight,
     Raleway_400Regular,

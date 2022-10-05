@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import LoginScreen from "./loginScreen";
-import OnBoardScreen from "./onBoardScreen";
-import RegisterScreen from "./registerScreen";
-import ResetPasswordScreen from "./registerScreen";
+import { RootStackParamList } from "../../types/navs";
+import LoginScreen from "../loginScreen/loginScreen";
+import OnBoardScreen from "../onBoardScreen/onBoardScreen";
+import RegisterScreen from "../registerScreen/registerScreen";
+import ResetPasswordScreen from "../registerScreen/registerScreen";
 
-const RootStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const RootStackScreen = () => {
   return (
@@ -18,7 +19,6 @@ const RootStackScreen = () => {
       <RootStack.Screen name="OnBoarding" component={OnBoardScreen} />
       <RootStack.Screen name="Login" component={LoginScreen} />
       <RootStack.Screen name="Register" component={RegisterScreen} />
-      <RootStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
     </RootStack.Navigator>
   );
 };

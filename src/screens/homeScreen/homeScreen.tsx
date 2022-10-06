@@ -10,21 +10,41 @@ import {
   ScrollView,
   Pressable,
   FlatList,
+  VStack,
+  KeyboardAvoidingView,
 } from "native-base";
+import {
+  CompositeScreenProps,
+  NavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { DrawerScreenProps } from "@react-navigation/drawer";
 import React, { useState } from "react";
 import { EvilIcons, Octicons } from "@expo/vector-icons";
 import { Color } from "../../constants/Color";
 import ProductCard from "../../components/ProductCard";
+import { HomeDrawerParamsList, RootStackParamList } from "../../types/navs";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const HomeScreen = ({ navigation }) => {
+type Props = CompositeScreenProps<
+  DrawerScreenProps<HomeDrawerParamsList>,
+  NativeStackScreenProps<RootStackParamList, "HomeDrawer">
+>;
+
+const HomeScreen = ({ navigation, ...rest }: Props) => {
   return (
-    <Box flex={1} backgroundColor="#ececec" safeArea py="6" px="7">
-      <HomeHeader navigation={navigation} />
-      <Heading mt={30} fontSize={40} fontWeight={"bold"}>
-        Order online {"\n"}collect in store
-      </Heading>
-      <Tabulation />
-      <ListProduct />
+    <Box flex={1} bg={Color.bgGray} safeArea pt={6} pb={10} px={7}>
+      <HomeHeader navigation={navigation} {...rest} />
+      <KeyboardAvoidingView behavior="height" enabled>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Heading mt={15} fontSize={40} fontWeight={"bold"}>
+            Order online {"\n"}collect in store
+          </Heading>
+          <Tabulation />
+          <HomeProducts />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Box>
   );
 };
@@ -43,33 +63,38 @@ const Tabulation = () => {
   ];
 
   return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      px={2}
-      mt={5}
-    >
-      <HStack space={4}>
-        {tabsAData.map((tab, index) => (
-          <Pressable key={index} onPress={() => setActive(index)}>
-            <Text
-              fontSize={20}
-              bold
-              pb={1}
-              color={active === index ? Color.primary : "##9A9A9D"}
-              borderBottomWidth={active === index ? 2 : 0}
-              borderBottomColor={active === index ? Color.primary : "##9A9A9D"}
-            >
-              {tab}
-            </Text>
-          </Pressable>
-        ))}
-      </HStack>
-    </ScrollView>
+    <Box mt={5}>
+      <ScrollView
+        horizontal={true}
+        h={20}
+        showsHorizontalScrollIndicator={false}
+      >
+        <HStack space={4}>
+          {tabsAData.map((tab, index) => (
+            <Pressable key={index} onPress={() => setActive(index)}>
+              <Text
+                fontSize={20}
+                bold
+                pb={1}
+                color={active === index ? Color.primary : "##9A9A9D"}
+                borderBottomWidth={active === index ? 2 : 0}
+                borderBottomColor={
+                  active === index ? Color.primary : "##9A9A9D"
+                }
+              >
+                {tab}
+              </Text>
+            </Pressable>
+          ))}
+        </HStack>
+      </ScrollView>
+    </Box>
   );
 };
 
-const ListProduct = () => {
+const HomeProducts = () => {
+  const navigation = useNavigation();
+
   const productsData = [
     {
       name: "Hello",
@@ -92,17 +117,29 @@ const ListProduct = () => {
   ];
 
   return (
-    <FlatList
-      contentContainerStyle={{ marginTop: 20 }}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      data={productsData}
-      renderItem={({ item }) => <ProductCard {...item} />}
-    />
+    <View flex={1} alignItems="center">
+      <FlatList
+        contentContainerStyle={{
+          paddingTop: 70,
+          paddingBottom: 10,
+        }}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        data={productsData}
+        renderItem={({ item }) => <ProductCard {...item} />}
+      />
+      <View flex={1} alignItems={"flex-end"} w="full">
+        <Pressable onPress={() => navigation.navigate("Profile")} mt={5}>
+          <Text fontSize={20} bold color={Color.primary}>
+            See more
+          </Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
-const HomeHeader = ({ navigation }) => {
+const HomeHeader = ({ navigation }: Props) => {
   const [search, setSearch] = useState("");
 
   return (
@@ -111,6 +148,7 @@ const HomeHeader = ({ navigation }) => {
       space={3}
       alignItems="center"
       justifyContent={"space-between"}
+      pb={4}
     >
       <Icon
         size={8}

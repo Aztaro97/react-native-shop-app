@@ -15,6 +15,8 @@ import ResetPasswordScreen from "../resetPassword/resetPasswordScreen";
 
 import { Color } from "../../constants/Color";
 import { RootStackParamList, RootTabParamList } from "../../types/navs";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "native-base";
 
 interface MainTabsScreenProps {
   navigation: any;
@@ -28,21 +30,23 @@ const MainTabsScreen = () => {
     <Tab.Navigator
       initialRouteName="HomeTab"
       screenOptions={{
-        tabBarActiveBackgroundColor: "#fff",
+        // tabBarActiveBackgroundColor: "#fff",
         tabBarStyle: {
-          backgroundColor: "#E5E5E5",
-          borderTopColor: Color.primary,
+          backgroundColor: Color.bgGray,
+          //   borderTopColor: Color.primary,
           borderTopWidth: 0,
-          position: "absolute",
-          bottom: 16,
-          right: 16,
-          left: 16,
+          //   borderTopWidth: 0,
+          //   position: "absolute",
+          //   bottom: 7,
+          //   right: 16,
+          //   left: 16,
           borderRadius: 15,
           height: 50,
         },
         tabBarInactiveTintColor: Color.secondary,
         tabBarShowLabel: false,
         headerShown: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen

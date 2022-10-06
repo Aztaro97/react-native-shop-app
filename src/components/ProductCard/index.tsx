@@ -1,5 +1,15 @@
-import { Box, Center, Heading, Image, Text } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import {
+  Box,
+  Center,
+  Heading,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "native-base";
 import React from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Color } from "../../constants/Color";
 
 interface ProductProps {
@@ -10,43 +20,44 @@ interface ProductProps {
 }
 
 const ProductCard = ({ name, image, price, details }: ProductProps) => {
+  const navigation = useNavigation();
   return (
-    <Box
-      bg="#fff"
-      borderRadius={20}
-      p={5}
-      shadow={6}
-      ml={3}
-      w={200}
-      h={270}
-      zIndex={1}
-      //   style={{
-      //     shadowColor: "#000",
-      //     shadowOffset: { width: 0, height: 2 },
-      //     shadowOpacity: 0.25,
-      //     shadowRadius: 3.84,
-      //     elevation: 5,
-      //   }}
-    >
-      <Center>
+    <Pressable onPress={() => navigation.navigate("Profile")}>
+      <Box
+        bg="#fff"
+        borderRadius={20}
+        px={5}
+		py={1}
+        shadow={1}
+        ml={3}
+        w={200}
+		h={200}
+        zIndex={1}
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+      >
         <Image
-          w={"100%"}
-          h={160}
+          w="full"
+            // h={160}
           source={image}
           alt={name}
-          //   position="relative"
-          //   bottom={20}
+          bg="transparent"
+          width={120}
+          position="absolute"
+          top={-80}
           zIndex={10}
+          resizeMode="contain"
         />
-        <Heading fontSize={24}>{name}</Heading>
+        <Heading fontSize={24} mt={35}>{name}</Heading>
         <Text fontSize={15} color="gray.400">
           {details}
         </Text>
         <Text fontSize={19} bold color={Color.primary}>
           ${price}
         </Text>
-      </Center>
-    </Box>
+      </Box>
+    </Pressable>
   );
 };
 

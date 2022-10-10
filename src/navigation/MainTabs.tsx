@@ -3,18 +3,19 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MaterialIcons, FontAwesome5, Feather } from "@expo/vector-icons";
 
-import HomeScreen from "../homeScreen/homeScreen";
-import FavoritesScreen from "../favoriteScreen/favoriteScreen";
-import OrdersScreen from "../orderScreen/orderScreen";
-import CartScreen from "../cartScreen/cartScreen";
-import SettingScreen from "../settingScreen/settingScreen";
-import ProfileScreen from "../profileScreen/profileScreen";
-import DeliveryScreen from "../deliveryScreen/deliveryScreen";
-import CheckOutScreen from "../checkOutScreen/checkOutScreen";
-import ResetPasswordScreen from "../resetPassword/resetPasswordScreen";
+import HomeScreen from "../screens/homeScreen/homeScreen";
+import FavoritesScreen from "../screens/favoriteScreen/favoriteScreen";
+import OrdersScreen from "../screens/orderScreen/orderScreen";
+import CartScreen from "../screens/cartScreen/cartScreen";
+import SettingScreen from "../screens/settingScreen/settingScreen";
+import ProfileScreen from "../screens/profileScreen/profileScreen";
+import DeliveryScreen from "../screens/deliveryScreen/deliveryScreen";
+import CheckOutScreen from "../screens/checkOutScreen/checkOutScreen";
+import ResetPasswordScreen from "../screens/resetPassword/resetPasswordScreen";
+import SingleProductScreen from "../screens/singleProductScreen";
 
-import { Color } from "../../constants/Color";
-import { RootStackParamList, RootTabParamList } from "../../types/navs";
+import { Color } from "../constants/Color";
+import { RootStackParamList, RootTabParamList } from "../types/navs";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { View } from "native-base";
 
@@ -30,17 +31,9 @@ const MainTabsScreen = () => {
     <Tab.Navigator
       initialRouteName="HomeTab"
       screenOptions={{
-        // tabBarActiveBackgroundColor: "#fff",
         tabBarStyle: {
           backgroundColor: Color.bgGray,
-          //   borderTopColor: Color.primary,
           borderTopWidth: 0,
-          //   borderTopWidth: 0,
-          //   position: "absolute",
-          //   bottom: 7,
-          //   right: 16,
-          //   left: 16,
-          borderRadius: 15,
           height: 50,
         },
         tabBarInactiveTintColor: Color.secondary,
@@ -51,7 +44,7 @@ const MainTabsScreen = () => {
     >
       <Tab.Screen
         name="HomeTab"
-        component={HomeScreen}
+        component={HomeStackScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
@@ -93,13 +86,19 @@ const MainTabsScreen = () => {
   );
 };
 
-// const HomeStackScreen = () => {
-//   return (
-//     <HomeStack.Navigator>
-//       <HomeStack.Screen name="Home" component={HomeScreen} />
-//     </HomeStack.Navigator>
-//   );
-// };
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator
+      initialRouteName="HomeDrawer"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <HomeStack.Screen name="HomeDrawer" component={HomeScreen} />
+      <HomeStack.Screen name="SingleProduct" component={SingleProductScreen} />
+    </HomeStack.Navigator>
+  );
+};
 
 const FavoritesStackScreen = () => {
   return (

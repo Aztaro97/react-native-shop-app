@@ -20,7 +20,7 @@ import {
 } from "@react-navigation/native";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import React, { useState } from "react";
-import { EvilIcons, Octicons } from "@expo/vector-icons";
+import { EvilIcons, Octicons, AntDesign } from "@expo/vector-icons";
 import { Color } from "../../constants/Color";
 import ProductCard from "../../components/ProductCard";
 import { HomeDrawerParamsList, RootStackParamList } from "../../types/navs";
@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation, ...rest }: Props) => {
 };
 
 const Tabulation = () => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState("All");
 
   const tabsAData = [
     "All",
@@ -71,16 +71,14 @@ const Tabulation = () => {
       >
         <HStack space={4}>
           {tabsAData.map((tab, index) => (
-            <Pressable key={index} onPress={() => setActive(index)}>
+            <Pressable key={index} onPress={() => setActive(tab)}>
               <Text
                 fontSize={20}
                 bold
                 pb={1}
-                color={active === index ? Color.primary : "##9A9A9D"}
-                borderBottomWidth={active === index ? 2 : 0}
-                borderBottomColor={
-                  active === index ? Color.primary : "##9A9A9D"
-                }
+                color={active === tab ? Color.primary : "#9A9A9D"}
+                borderBottomWidth={active === tab ? 2 : 0}
+                borderBottomColor={active === tab ? Color.primary : "##9A9A9D"}
               >
                 {tab}
               </Text>
@@ -97,22 +95,22 @@ const HomeProducts = () => {
 
   const productsData = [
     {
-      name: "Hello",
+      name: "Apple Watch",
       image: require("../../assets/watch.png"),
       details: "lorem upsum	",
-      price: 100,
+      price: 90,
     },
     {
-      name: "Hello",
-      image: require("../../assets/watch.png"),
+      name: "SAMSUNG",
+      image: require("../../assets/samsung.png"),
       details: "lorem upsum	",
-      price: 100,
+      price: 120,
     },
     {
-      name: "Hello",
+      name: "Iphone Watch",
       image: require("../../assets/watch.png"),
       details: "lorem upsum	",
-      price: 100,
+      price: 300,
     },
   ];
 
@@ -129,10 +127,26 @@ const HomeProducts = () => {
         renderItem={({ item }) => <ProductCard {...item} />}
       />
       <View flex={1} alignItems={"flex-end"} w="full">
-        <Pressable onPress={() => navigation.navigate("Profile")} mt={5}>
-          <Text fontSize={20} bold color={Color.primary}>
+        <Pressable
+          flex={1}
+          flexDirection="row"
+          alignItems={"center"}
+          onPress={() =>
+            navigation.navigate("ProfilesTab", { screen: "Profile" })
+          }
+          mt={5}
+        >
+          <Text fontSize={17} bold color={Color.primary}>
             See more
           </Text>
+          <Icon
+            position={"relative"}
+            top={1}
+            ml={2}
+            color={Color.primary}
+            as={<AntDesign name="arrowright" size={20} />}
+            name="chevron-right"
+          />
         </Pressable>
       </View>
     </View>

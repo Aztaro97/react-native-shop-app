@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { Heading, NativeBaseProvider, View } from "native-base";
+import { Provider } from "react-redux";
 import React, { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { AnimatePresence } from "moti";
@@ -15,6 +16,7 @@ import {
 } from "@expo-google-fonts/raleway";
 import theme from "../../theme";
 import { Text } from "react-native";
+import { store } from "../../store";
 
 interface Props {
   children: React.ReactNode;
@@ -42,13 +44,15 @@ const AppContainer = ({ children }: Props) => {
   }
 
   return (
-    <NavigationContainer>
-      <NativeBaseProvider theme={theme}>
-        <View onLayout={onLayoutRootView} />
-        <AnimatePresence>{children}</AnimatePresence>
-        <StatusBar />
-      </NativeBaseProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <NativeBaseProvider theme={theme}>
+          <View onLayout={onLayoutRootView} />
+          <AnimatePresence>{children}</AnimatePresence>
+          <StatusBar />
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

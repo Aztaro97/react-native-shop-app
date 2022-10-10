@@ -18,6 +18,7 @@ export type RootStackParamList = {
   ResetPassword: undefined;
   Orders: undefined;
   Setting: undefined;
+  SingleProduct: undefined;
 };
 
 export type RootTabParamList = {

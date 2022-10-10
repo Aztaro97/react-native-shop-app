@@ -5,7 +5,7 @@ const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <HStack space={4} alignItems="center" justifyContent={"space-between"}>
-      <Text fontSize="lg" fontWeight="bold" color={useColorModeValue("white.100", "gray.200")}>
+      <Text fontSize="lg" fontWeight="bold" color={useColorModeValue("gray.100", "gray.200")}>
         Dark Theme
       </Text>
       <Switch

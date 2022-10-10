@@ -1,1 +1,1 @@
-# shop-native-app
+# E-commerce Mobile Application Platform

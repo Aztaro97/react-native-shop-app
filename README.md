@@ -1,1 +1,1 @@
-# E-commerce Mobile Application Platform
+# E-commerce Mobile Application with React Native

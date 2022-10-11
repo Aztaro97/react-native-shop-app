@@ -73,7 +73,7 @@ const ProfileScreen = () => {
             <Text fontSize={18} bold>
               Rosina Doe
             </Text>
-            <HStack space={4}>
+            <HStack space={4} alignItems="center">
               <Icon
                 size="lg"
                 as={

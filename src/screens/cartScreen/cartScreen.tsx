@@ -31,6 +31,7 @@ const CartScreen = () => {
   //   }, []);
 
   const navigation = useNavigation();
+
   return (
     <Box h="full" py={6} px={6}>
       <HStack justifyContent={"space-between"} alignItems="center" py={4}>
@@ -68,16 +69,18 @@ const CartScreen = () => {
           $ 579
         </Text>
       </HStack>
-      <Pressable>
-        <Button
-          size="lg"
-          _text={{ fontWeight: "700" }}
-          bg={Color.primary}
-          py={4}
-        >
-          Checkout
-        </Button>
-      </Pressable>
+
+      <Button
+        onPress={() =>
+          navigation.navigate("FavoritesTab", { screen: "Checkout" })
+        }
+        size="lg"
+        _text={{ fontWeight: "700" }}
+        bg={Color.primary}
+        py={4}
+      >
+        Checkout
+      </Button>
     </Box>
   );
 };

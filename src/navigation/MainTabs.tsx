@@ -17,7 +17,7 @@ import SingleProductScreen from "../screens/singleProductScreen";
 import { Color } from "../constants/Color";
 import { RootStackParamList, RootTabParamList } from "../types/navs";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { View } from "native-base";
+import { Badge, View } from "native-base";
 
 interface MainTabsScreenProps {
   navigation: any;
@@ -78,7 +78,22 @@ const MainTabsScreen = () => {
         options={{
           tabBarLabel: "Cart",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="shopping-cart" size={size} color={color} />
+            <>
+              <Badge
+                position={"absolute"}
+                bottom={6}
+                right={5}
+                rounded="full"
+                zIndex={1}
+                variant="solid"
+                colorScheme="primary"
+                color="#fff"
+                _text={{ fontSize: 10, color: "#fff" }}
+              >
+                2
+              </Badge>
+              <Feather name="shopping-cart" size={size} color={color} />
+            </>
           ),
         }}
       />

@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
 } from "native-base";
 import { Platform, Dimensions } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import React, { FC, useState } from "react";
 import { SimpleLineIcons, Feather } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -26,6 +27,10 @@ import { HomeDrawerParamsList, RootStackParamList } from "../../types/navs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { NBMotiView } from "../../components/animation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { RootState } from "../../store";
+import { setAuth } from "../../store/features/authReducers/authSliders";
 
 const { height, width } = Dimensions.get("window");
 
@@ -43,13 +48,28 @@ type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
 const LoginScreen = ({ navigation }: Props) => {
   const [showPwd, setShowPwd] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { handleSubmit, control } = useForm<UserLoginProps>({
     resolver: yupResolver(LoginSchema),
   });
 
-  const onSubmit = (data: UserLoginProps): void => {
-    console.log(data);
+  const { isAuth } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data: UserLoginProps) => {
+    const { email, password } = data;
+    setIsLoading(true);
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      if (res.user) {
+        dispatch(setAuth(true));
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -89,15 +109,17 @@ const LoginScreen = ({ navigation }: Props) => {
       <MotiView
         from={{
           opacity: 0.5,
+          scale: 0.5,
           translateY: 800,
         }}
         animate={{
           opacity: 1,
+          scale: 1,
           translateY: 0,
         }}
         transition={{
           type: "timing",
-          duration: 2000,
+          duration: 1500,
           delay: 800,
         }}
       >
@@ -203,6 +225,7 @@ const LoginScreen = ({ navigation }: Props) => {
                 bg={Color.primary}
                 rounded="lg"
                 color="#fff"
+                isLoading={isLoading}
                 onPress={handleSubmit(onSubmit)}
               >
                 Login

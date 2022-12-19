@@ -9,7 +9,6 @@ import {
   HStack,
   Text,
   useColorModeValue,
-  View,
   VStack,
 } from "native-base";
 import React from "react";
@@ -19,11 +18,16 @@ import {
   MaterialIcons,
   Ionicons,
 } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+
 import { Color } from "../../constants/Color";
-import ThemeToggle from "../themeToggle";
+import ThemeToggle from "../../components/themeToggle";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
+import { logout } from "../../store/features/authReducers/authSliders";
 
 const DrawerContentScreen = (props: DrawerContentComponentProps) => {
+  const dispatch = useDispatch();
+
   return (
     <Box flex={1} bg={useColorModeValue(Color.primary, "gray.500")} safeArea>
       <DrawerContentScrollView {...props}>
@@ -36,9 +40,8 @@ const DrawerContentScreen = (props: DrawerContentComponentProps) => {
             _dark={{
               bgColor: "gray.300",
             }}
-            h={0.3}
           />
-          <Text fontSize={20} mt={3} color="gray.400">
+          <Text fontSize={20} mt={3} color="gray.300">
             Preferences
           </Text>
           <ThemeToggle />
@@ -49,14 +52,13 @@ const DrawerContentScreen = (props: DrawerContentComponentProps) => {
             _dark={{
               bgColor: "gray.300",
             }}
-            h={0.3}
           />
         </Box>
       </DrawerContentScrollView>
       <DrawerItem
         labelStyle={{ color: "#fff" }}
         label="Sign Out"
-        onPress={() => props.navigation.navigate("Register")}
+        onPress={() => dispatch(logout())}
         icon={({ color, size, focused }) => (
           <Feather name="log-out" size={size} color={"#fff"} />
         )}
@@ -66,61 +68,10 @@ const DrawerContentScreen = (props: DrawerContentComponentProps) => {
 };
 
 const DrawerNavigation = (props: DrawerContentComponentProps) => {
-  const navLinks = [
-    {
-      label: "Profile",
-      icon: <FontAwesome name="user-o" size={30} color="#fff" />,
-      link: "Profile",
-    },
-    {
-      label: "My Orders",
-      icon: <Feather name="shopping-cart" size={30} color="#fff" />,
-      link: "Orders",
-    },
-    {
-      label: "Favorites",
-      icon: <MaterialIcons name="favorite-outline" size={30} color="#fff" />,
-      link: "Favorite",
-    },
-    {
-      label: "Delivery",
-      icon: <MaterialIcons name="delivery-dining" size={30} color="#fff" />,
-      link: "Delivery",
-    },
-    {
-      label: "Settings",
-      icon: <Ionicons name="settings-outline" size={30} color="#fff" />,
-      link: "Setting",
-    },
-  ];
-
   return (
     <VStack space={4} mt={10}>
-      {navLinks.map((item, index) => (
-        <View key={index}>
-          <DrawerItem
-            style={{ backgroundColor: "transparent" }}
-            inactiveTintColor="#fff"
-            labelStyle={{ color: "#fff", fontWeight: "600", fontSize: 17 }}
-            icon={({ color, size }) => item.icon}
-            label={item.label}
-            onPress={() => props.navigation.navigate(item.link)}
-            activeBackgroundColor={useColorModeValue("#333", "gray.500")}
-          />
-          <Divider
-            _light={{
-              bgColor: "gray.300",
-            }}
-            _dark={{
-              bgColor: "gray.300",
-            }}
-            h={0.3}
-          />
-        </View>
-      ))}
-      {/* <DrawerItem
+      <DrawerItem
         style={{ backgroundColor: "transparent", color: "#fff" }}
-        inactiveTintColor="#fff"
         labelStyle={{ color: "#fff", fontWeight: "bold" }}
         icon={({ color, size }) => (
           <FontAwesome name="user-o" size={size} color={color} />
@@ -132,7 +83,6 @@ const DrawerNavigation = (props: DrawerContentComponentProps) => {
 
       <DrawerItem
         labelStyle={{ color: "#fff", fontWeight: "bold" }}
-        inactiveTintColor="#fff"
         icon={({ color, size }) => (
           <Feather name="shopping-cart" size={size} color={color} />
         )}
@@ -143,7 +93,6 @@ const DrawerNavigation = (props: DrawerContentComponentProps) => {
 
       <DrawerItem
         labelStyle={{ color: "#fff", fontWeight: "bold" }}
-        inactiveTintColor="#fff"
         icon={({ color, size }) => (
           <MaterialIcons name="favorite-outline" size={size} color={color} />
         )}
@@ -154,7 +103,6 @@ const DrawerNavigation = (props: DrawerContentComponentProps) => {
 
       <DrawerItem
         labelStyle={{ color: "#fff", fontWeight: "bold" }}
-        inactiveTintColor="#fff"
         icon={({ color, size }) => (
           <MaterialIcons name="delivery-dining" size={size} color={color} />
         )}
@@ -165,14 +113,13 @@ const DrawerNavigation = (props: DrawerContentComponentProps) => {
 
       <DrawerItem
         labelStyle={{ color: "#fff", fontWeight: "bold" }}
-        inactiveTintColor="#fff"
         icon={({ color, size }) => (
           <Ionicons name="settings-outline" size={size} color={color} />
         )}
         label="Setting"
         onPress={() => props.navigation.navigate("Setting")}
         activeBackgroundColor={useColorModeValue("#333", "gray.500")}
-      /> */}
+      />
     </VStack>
   );
 };

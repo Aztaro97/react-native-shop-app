@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MaterialIcons, FontAwesome5, Feather } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5, Feather } from "react-native-vector-icons";
 
 import HomeScreen from "../homeScreen/homeScreen";
 import FavoritesScreen from "../favoriteScreen/favoriteScreen";

@@ -10,65 +10,105 @@ import {
   Text,
   useColorModeValue,
   KeyboardAvoidingView,
+  HStack,
 } from "native-base";
-import { Platform, Dimensions } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import React, { FC, useState } from "react";
-import { SimpleLineIcons, Feather } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { AnimatePresence, MotiView, motify, MotiText } from "moti";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { LoginSchema } from "../../utils/validationSchema";
+import {Platform, Dimensions, StyleSheet} from "react-native";
+import {useSelector, useDispatch} from "react-redux";
+import React, {FC, useState} from "react";
+import {SimpleLineIcons, Feather} from "react-native-vector-icons";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {AnimatePresence, MotiView, motify, MotiText} from "moti";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import {useForm, Controller} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {LoginSchema} from "../../utils/validationSchema";
 
-import { Color } from "../../constants/Color";
-import { HomeDrawerParamsList, RootStackParamList } from "../../types/navs";
-import { CompositeScreenProps } from "@react-navigation/native";
-import { DrawerScreenProps } from "@react-navigation/drawer";
-import { NBMotiView } from "../../components/animation";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
-import { RootState } from "../../store";
-import { setAuth } from "../../store/features/authReducers/authSliders";
+import auth from "@react-native-firebase/auth";
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  NativeModuleError,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
-const { height, width } = Dimensions.get("window");
+// import { auth } from "../../config/firebase";
+import {RootState} from "../../store";
+import {setAuth} from "../../store/features/authReducers/authSliders";
+import {NBMotiView} from "../../components/animation";
+import {HomeDrawerParamsList, RootStackParamList} from "../../types/navs";
+import {Color} from "../../constants/Color";
+import {onGoogleButtonPress} from "../../utils/utils";
+
+const {height, width} = Dimensions.get("window");
 
 type UserLoginProps = {
   email: string;
   password: string;
 };
-
-// type Props = CompositeScreenProps<
-//   DrawerScreenProps<HomeDrawerParamsList>,
-//   NativeStackScreenProps<RootStackParamList, "Login">
-// >;
-
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
-const LoginScreen = ({ navigation }: Props) => {
+GoogleSignin.configure({
+  webClientId:
+    "300055833730-43a3j5uq78488unu9ui3o0p2710gdocf.apps.googleusercontent.com",
+});
+
+const LoginScreen: FC<Props> = ({navigation}) => {
   const [showPwd, setShowPwd] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { handleSubmit, control } = useForm<UserLoginProps>({
+  const {handleSubmit, control} = useForm<UserLoginProps>({
     resolver: yupResolver(LoginSchema),
   });
 
-  const { isAuth } = useSelector((state: RootState) => state.auth);
+  const {isAuth, user} = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const onSubmit = async (data: UserLoginProps) => {
-    const { email, password } = data;
+    const {email, password} = data;
     setIsLoading(true);
-    try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      if (res.user) {
-        dispatch(setAuth(true));
+
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(result => {
+        console.log(result);
+        if (result.user) {
+          dispatch(setAuth(result.user));
+          setIsLoading(false);
+        }
+      })
+      .catch(error => {
+        console.log(error);
         setIsLoading(false);
+      });
+  };
+
+  const facebookLogin = async () => {
+    console.log("hell");
+  };
+
+  const googleLogin = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      //   const currentUser = await GoogleSignin.getCurrentUser();
+      //   this.setState({userInfo});
+      console.log("User Info", userInfo);
+    } catch (error: any) {
+      if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        console.log("SIGN_IN_CANCELLED");
+      } else if (error?.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+        console.log("IN_PROGRESS");
+      } else if (error?.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not avai :lable or outdated
+        console.log("PLAY_SERVICES_NOT_AVAILABLE");
+      } else {
+        // some other error happened
+        console.log("some other error happened", error);
       }
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
     }
   };
 
@@ -91,8 +131,7 @@ const LoginScreen = ({ navigation }: Props) => {
         style={{
           marginTop: 50,
           marginLeft: 20,
-        }}
-      >
+        }}>
         <Heading
           fontSize={70}
           fontWeight="bold"
@@ -101,8 +140,7 @@ const LoginScreen = ({ navigation }: Props) => {
           mb="4"
           mt="20"
           color="#fff"
-          position={"relative"}
-        >
+          position={"relative"}>
           Welcome back
         </Heading>
       </MotiText>
@@ -121,8 +159,7 @@ const LoginScreen = ({ navigation }: Props) => {
           type: "timing",
           duration: 1500,
           delay: 800,
-        }}
-      >
+        }}>
         <KeyboardAvoidingView
           h={{
             base: height / 1.5,
@@ -133,8 +170,7 @@ const LoginScreen = ({ navigation }: Props) => {
           borderTopLeftRadius={30}
           borderTopRightRadius={30}
           py="5"
-          px="10"
-        >
+          px="10">
           <Box flex={1}>
             <Heading fontSize="3xl" fontWeight={"bold"}>
               Login
@@ -144,10 +180,10 @@ const LoginScreen = ({ navigation }: Props) => {
                 <Controller
                   control={control}
                   name="email"
-                  rules={{ required: "The Email is required" }}
+                  rules={{required: "The Email is required"}}
                   render={({
-                    field: { onChange, onBlur, value },
-                    fieldState: { error },
+                    field: {onChange, onBlur, value},
+                    fieldState: {error},
                   }) => (
                     <Box>
                       <Input
@@ -182,8 +218,8 @@ const LoginScreen = ({ navigation }: Props) => {
                     },
                   }}
                   render={({
-                    field: { onChange, onBlur, value },
-                    fieldState: { error },
+                    field: {onChange, onBlur, value},
+                    fieldState: {error},
                   }) => (
                     <Box>
                       <Input
@@ -221,15 +257,36 @@ const LoginScreen = ({ navigation }: Props) => {
                 w="100%"
                 mt={5}
                 py="4"
-                _text={{ fontSize: "xl", fontWeight: "bold" }}
+                _text={{fontSize: "xl", fontWeight: "bold"}}
                 bg={Color.primary}
                 rounded="lg"
                 color="#fff"
                 isLoading={isLoading}
-                onPress={handleSubmit(onSubmit)}
-              >
+                onPress={handleSubmit(onSubmit)}>
                 Login
               </Button>
+
+              <HStack
+                justifyContent={"center"}
+                alignItems={"center"}
+                space={10}
+                mt={5}>
+                <GoogleSigninButton
+                  style={{width: 192, height: 48}}
+                  size={GoogleSigninButton.Size.Wide}
+                  color={GoogleSigninButton.Color.Dark}
+                  onPress={googleLogin}
+                  //   disabled={this.state.isSigninInProgress}
+                />
+                {/* <Pressable onPress={}>
+                  <FontAwesome
+                    style={styles.icon}
+                    name="facebook-f"
+                    size={24}
+                    color="#fff"
+                  />
+                </Pressable> */}
+              </HStack>
 
               <Center>
                 <Pressable onPress={() => navigation.navigate("Register")}>
@@ -245,5 +302,18 @@ const LoginScreen = ({ navigation }: Props) => {
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    padding: 10,
+    backgroundColor: Color.primary,
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default LoginScreen;

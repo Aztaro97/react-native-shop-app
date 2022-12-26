@@ -8,17 +8,18 @@ import {
   View,
   Heading,
   ScrollView,
-} from "native-base";
-import React, { useState } from "react";
-import { EvilIcons, Octicons } from "@expo/vector-icons";
-import { Color } from "../../constants/Color";
+} from 'native-base';
+import * as React from 'react';
+import {useState} from 'react';
+import {EvilIcons, Octicons} from 'react-native-vector-icons';
+import {Color} from '../../constants/Color';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({navigation}) => {
   return (
     <Box flex={1} backgroundColor="#ececec" safeArea py="6" px="7">
       <HomeHeader navigation={navigation} />
-      <Heading mt={30} fontSize={40} fontWeight={"bold"}>
-        Order online {"\n"}collect in store
+      <Heading mt={30} fontSize={40} fontWeight={'bold'}>
+        Order online {'\n'}collect in store
       </Heading>
       <Tabulation />
     </Box>
@@ -55,16 +56,15 @@ const Tabulation = () => {
   );
 };
 
-const HomeHeader = ({ navigation }) => {
-  const [search, setSearch] = useState("");
+const HomeHeader = ({navigation}) => {
+  const [search, setSearch] = useState('');
 
   return (
     <HStack
       w="100%"
       space={3}
       alignItems="center"
-      justifyContent={"space-between"}
-    >
+      justifyContent={'space-between'}>
       <Icon
         size={8}
         as={<Octicons name="three-bars" color="black" />}
@@ -85,8 +85,8 @@ const HomeHeader = ({ navigation }) => {
             as={<EvilIcons name="search" color="black" />}
           />
         }
-        onChangeText={(text) => setSearch(text)}
-        _focus={{ borderColor: Color.primary, backgroundColor: "gray.100" }}
+        onChangeText={text => setSearch(text)}
+        _focus={{borderColor: Color.primary, backgroundColor: 'gray.100'}}
       />
     </HStack>
   );

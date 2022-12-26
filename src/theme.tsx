@@ -10,7 +10,6 @@ const fontConfig = {
     200: {
       normal: "Raleway_200ExtraLight",
     },
-
     400: {
       normal: "Raleway_400Regular",
     },

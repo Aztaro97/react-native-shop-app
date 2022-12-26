@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "300055833730",
+    "project_id": "takalmi-app",
+    "storage_bucket": "takalmi-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300055833730:android:7eaaf26abb38a1e4de589b",
+        "android_client_info": {
+          "package_name": "com.takalmi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "300055833730-43a3j5uq78488unu9ui3o0p2710gdocf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoMSK2a-QXbAa6xGvgusshoDEiOP8AxsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "300055833730-43a3j5uq78488unu9ui3o0p2710gdocf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

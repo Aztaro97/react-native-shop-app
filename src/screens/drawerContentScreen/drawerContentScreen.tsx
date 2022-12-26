@@ -11,13 +11,13 @@ import {
   useColorModeValue,
   VStack,
 } from "native-base";
-import React from "react";
+import * as React from 'react';
 import {
   Feather,
   FontAwesome,
   MaterialIcons,
-  Ionicons,
-} from "@expo/vector-icons";
+  Ionicons
+} from "react-native-vector-icons";
 import { useDispatch } from "react-redux";
 
 import { Color } from "../../constants/Color";

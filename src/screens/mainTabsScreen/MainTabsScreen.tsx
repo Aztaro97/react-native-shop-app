@@ -1,6 +1,10 @@
-import * as React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, {useRef, useEffect} from "react";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import * as Animatable from "react-native-animatable";
+import {Icon} from "native-base";
+import {TouchableOpacity} from "react-native-gesture-handler";
+import {StyleSheet, Text, View} from "react-native";
 
 import HomeScreen from "../homeScreen/homeScreen";
 import FavoritesScreen from "../favoriteScreen/favoriteScreen";
@@ -8,125 +12,244 @@ import OrdersScreen from "../orderScreen/orderScreen";
 import CartScreen from "../cartScreen/cartScreen";
 import SettingScreen from "../settingScreen/settingScreen";
 import ProfileScreen from "../profileScreen/profileScreen";
-import ProductScreen from "../productScreen/productScreen"
+import ProductScreen from "../productScreen/productScreen";
 import DeliveryScreen from "../deliveryScreen/deliveryScreen";
 import CheckOutScreen from "../checkOutScreen/checkOutScreen";
 import ResetPasswordScreen from "../resetPassword/resetPasswordScreen";
-import { Color } from "../../constants/Color";
-import { RootStackParamList, RootTabParamList } from "../../types/navs";
-import { Icons } from "../../components/icons";
+import {Color} from "../../constants/Color";
+import {RootStackParamList, RootTabParamList} from "../../types/navs";
+import {Icons} from "../../components/icons";
+import {Colors} from "../../constants";
+import {MotiText, MotiView, useAnimationState, useDynamicAnimation} from "moti";
 
 interface MainTabsScreenProps {
-	navigation: any;
+  navigation: any;
+}
+interface TabBarButtonProps {
+  route: string;
+  label: string;
+  iconType: any;
+  nameIcon: string;
+  component: React.ReactNode;
 }
 
 const HomeStack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const MainTabsScreen = () => {
-	return (
-		<Tab.Navigator
-			initialRouteName="HomeTab"
-			screenOptions={{
-				tabBarActiveBackgroundColor: "#fff",
-				tabBarStyle: {
-					backgroundColor: "#E5E5E5",
-					borderTopColor: Color.primary,
-					borderTopWidth: 0,
-					position: "absolute",
-					bottom: 16,
-					right: 16,
-					left: 16,
-					borderRadius: 15,
-					height: 50,
-				},
-				tabBarInactiveTintColor: Color.secondary,
-				tabBarShowLabel: false,
-				headerShown: false,
-			}}>
-			<Tab.Screen
-				name="HomeTab"
-				component={HomeStackScreen}
-				options={{
-					tabBarLabel: "Home",
-					tabBarIcon: ({ color, size }) => (
-						<Icons.MaterialIcons name="home-filled" size={size} color={color} />
-					),
-				}}
-			/>
-			<Tab.Screen
-				name="FavoritesTab"
-				component={FavoritesStackScreen}
-				options={{
-					tabBarLabel: "Favorites",
-					tabBarIcon: ({ color, size }) => (
-						<Icons.MaterialIcons
-							name="favorite-outline"
-							size={size}
-							color={color}
-						/>
-					),
-				}}
-			/>
-			<Tab.Screen
-				name="ProfilesTab"
-				component={ProfilesStackScreen}
-				options={{
-					tabBarLabel: "Profile",
-					tabBarIcon: ({ color, size }) => (
-						<Icons.FontAwesome5 name="user" size={size} color={color} />
-					),
-				}}
-			/>
-			<Tab.Screen
-				name="CartTab"
-				component={CartScreen}
-				options={{
-					tabBarLabel: "Cart",
-					tabBarIcon: ({ color, size }) => (
-						<Icons.Feather name="shopping-cart" size={size} color={color} />
-					),
-				}}
-			/>
-		</Tab.Navigator>
-	);
-};
-
 const HomeStackScreen = () => {
-	return (
-		<HomeStack.Navigator>
-			<HomeStack.Screen name="Home" component={HomeScreen} />
-			<HomeStack.Screen name="Product" component={ProductScreen} />
-		</HomeStack.Navigator>
-	);
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Product" component={ProductScreen} />
+    </HomeStack.Navigator>
+  );
 };
 
 const FavoritesStackScreen = () => {
-	return (
-		<HomeStack.Navigator
-			initialRouteName="Favorite"
-			screenOptions={{
-				headerShown: false,
-			}}>
-			<HomeStack.Screen name="Favorite" component={FavoritesScreen} />
-			<HomeStack.Screen name="Checkout" component={CheckOutScreen} />
-			<HomeStack.Screen name="Delivery" component={DeliveryScreen} />
-		</HomeStack.Navigator>
-	);
+  return (
+    <HomeStack.Navigator
+      initialRouteName="Favorite"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name="Favorite" component={FavoritesScreen} />
+      <HomeStack.Screen name="Checkout" component={CheckOutScreen} />
+      <HomeStack.Screen name="Delivery" component={DeliveryScreen} />
+    </HomeStack.Navigator>
+  );
 };
 
 const ProfilesStackScreen = () => {
-	return (
-		<HomeStack.Navigator
-			screenOptions={{
-				headerShown: false,
-			}}>
-			<HomeStack.Screen name="Profile" component={ProfileScreen} />
-			<HomeStack.Screen name="Setting" component={SettingScreen} />
-			<HomeStack.Screen name="Orders" component={OrdersScreen} />
-			<HomeStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-		</HomeStack.Navigator>
-	);
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <HomeStack.Screen name="Profile" component={ProfileScreen} />
+      <HomeStack.Screen name="Setting" component={SettingScreen} />
+      <HomeStack.Screen name="Orders" component={OrdersScreen} />
+      <HomeStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+    </HomeStack.Navigator>
+  );
 };
+
+const tabArray = [
+  {
+    route: "HomeTab",
+    label: "Home",
+    iconType: Icons.MaterialIcons,
+    nameIcon: "home-filled",
+    component: HomeStackScreen,
+  },
+  {
+    route: "FavoritesTab",
+    label: "Favorites",
+    iconType: Icons.MaterialIcons,
+    nameIcon: "favorite-outline",
+    component: FavoritesStackScreen,
+  },
+  {
+    route: "ProfilesTab",
+    label: "Profile",
+    iconType: Icons.FontAwesome5,
+    nameIcon: "user",
+    component: ProfilesStackScreen,
+  },
+  {
+    route: "CartTab",
+    label: "Cart",
+    iconType: Icons.Feather,
+    nameIcon: "shopping-cart",
+    component: CartScreen,
+  },
+];
+
+const animate1 = {
+  0: {scale: 0.5, translateY: 7},
+  0.92: {translateY: -34},
+  1: {scale: 1.2, translateY: -24},
+};
+const animate2 = {
+  0: {scale: 1.2, translateY: -24},
+  1: {scale: 1, translateY: 7},
+};
+
+const circle1 = {
+  0: {scale: 0},
+  0.3: {scale: 0.9},
+  0.5: {scale: 0.2},
+  0.8: {scale: 0.7},
+  1: {scale: 1},
+};
+const circle2 = {0: {scale: 1}, 1: {scale: 0}};
+
+const TabBarButton = ({item, onPress, accessibilityState}) => {
+  const focused = accessibilityState.selected;
+  const viewRef = useRef<null>(null);
+  const circleRef = useRef(null);
+  const textRef = useRef(null);
+
+  const viewAnimation = useDynamicAnimation(() => {
+    return {
+      scale: 1,
+    };
+  });
+  const circleAnimation = useDynamicAnimation(() => {
+    return {
+      scale: 0.4,
+    };
+  });
+  const textAnimation = useDynamicAnimation(() => {
+    return {
+      scale: 1,
+    };
+  });
+
+  useEffect(() => {
+    if (focused) {
+      viewAnimation.animateTo({scale: 1.2, translateY: -24});
+      circleAnimation.animateTo({scale: 1.3});
+      textAnimation.animateTo({scale: 1.3});
+      //   viewRef.current.animate(animate1);
+      //   circleRef.current.animate(circle1);
+      //   textRef.current.transitionTo({scale: 1});
+    } else {
+      //   viewRef.current.animate(animate2);
+      //   circleRef.current.animate(circle2);
+      //   textRef.current.transitionTo({scale: 0});
+      viewAnimation.animateTo({scale: 1, translateY: 7});
+      circleAnimation.animateTo({scale: 1});
+      textAnimation.animateTo({scale: 0});
+    }
+  }, [focused]);
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={1}
+      style={styles.container}>
+      <MotiView state={viewAnimation} ref={viewRef} style={styles.container}>
+        <View style={styles.btn}>
+          <MotiView
+            state={circleAnimation}
+            ref={circleRef}
+            style={styles.circle}
+          />
+          <Icon as={item.iconType} size={20} />
+        </View>
+        <MotiText state={textAnimation} ref={textRef} style={styles.text}>
+          {item.label}
+        </MotiText>
+      </MotiView>
+    </TouchableOpacity>
+  );
+};
+
+const MainTabsScreen = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="HomeTab"
+      screenOptions={{
+        tabBarActiveBackgroundColor: "#fff",
+        tabBarStyle: styles.tabBar,
+        tabBarInactiveTintColor: Color.secondary,
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}>
+      {tabArray.map((item, index) => (
+        <Tab.Screen
+          key={index}
+          name={item.route}
+          component={item.component}
+          options={{
+            tabBarLabel: item.label,
+            tabBarIcon: ({color, size}) => (
+              <Icons.Feather name={item.iconType} size={size} color={color} />
+            ),
+            tabBarButton: props => <TabBarButton item={item} {...props} />,
+          }}
+        />
+      ))}
+    </Tab.Navigator>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 90,
+  },
+  tabBar: {
+    height: 70,
+    position: "absolute",
+    bottom: 16,
+    right: 16,
+    left: 16,
+    borderRadius: 16,
+  },
+  btn: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 4,
+    borderColor: "#fff",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  circle: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: 25,
+  },
+  text: {
+    fontSize: 10,
+    textAlign: "center",
+    color: Colors.primary,
+  },
+});
 
 export default MainTabsScreen;

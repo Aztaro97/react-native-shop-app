@@ -172,6 +172,7 @@ const ProductList = () => {
 	return (
 		<View style={{ flex: 1, width: width }}>
 			<ScrollView
+				horizontal={true}
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}
 				contentContainerStyle={{ paddingVertical: 20 }}

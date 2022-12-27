@@ -15,12 +15,6 @@ import {
 import {Platform, Dimensions, StyleSheet} from "react-native";
 import {useSelector, useDispatch} from "react-redux";
 import React, {FC, useState} from "react";
-import {SimpleLineIcons, Feather} from "react-native-vector-icons";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {AnimatePresence, MotiView, motify, MotiText} from "moti";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {useForm, Controller} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {LoginSchema} from "../../utils/validationSchema";
@@ -96,13 +90,13 @@ const LoginScreen: FC<Props> = ({navigation}) => {
       //   this.setState({userInfo});
       console.log("User Info", userInfo);
     } catch (error: any) {
-      if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log("SIGN_IN_CANCELLED");
-      } else if (error?.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
         console.log("IN_PROGRESS");
-      } else if (error?.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not avai :lable or outdated
         console.log("PLAY_SERVICES_NOT_AVAILABLE");
       } else {

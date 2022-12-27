@@ -1,7 +1,7 @@
 import * as React from "react";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import auth, {FirebaseAuthTypes} from "@react-native-firebase/auth";
 
 import {HomeDrawerParamsList} from "../types/navs";
@@ -11,6 +11,7 @@ import MainTabsScreen from "../screens/mainTabsScreen/MainTabsScreen";
 import RegisterScreen from "../screens/registerScreen/registerScreen";
 import LoginScreen from "../screens/loginScreen/loginScreen";
 import RootStackScreen from "../screens/rootStackScreen/rootStackScreen";
+import {setAuth} from "../store/features/authReducers/authSliders";
 
 const Drawer = createDrawerNavigator<HomeDrawerParamsList>();
 
@@ -21,15 +22,17 @@ const AuthRoutes: React.FC = () => {
   const [initializing, setInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
+  const dispatch = useDispatch();
+
   const {isAuth} = useSelector((state: RootState) => state.auth);
 
   // Handle user state changes
   const onAuthStateChanging = (user: any) => {
     setUser(user);
-    console.log(user);
+    dispatch(setAuth(user));
+
     initializing && setInitializing(false);
   };
-  console.log("First lunch");
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanging);
     () => {

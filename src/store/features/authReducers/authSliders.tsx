@@ -25,7 +25,7 @@ export const authSlice = createSlice({
       return {
         ...state,
         isAuth: false,
-        user: null,
+        user: {},
       };
     },
   },

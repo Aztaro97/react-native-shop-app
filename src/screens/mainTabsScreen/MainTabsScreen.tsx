@@ -1,10 +1,9 @@
 import React, {useRef, useEffect} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import * as Animatable from "react-native-animatable";
 import {Icon} from "native-base";
 import {TouchableOpacity} from "react-native-gesture-handler";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 
 import HomeScreen from "../homeScreen/homeScreen";
 import FavoritesScreen from "../favoriteScreen/favoriteScreen";
@@ -25,12 +24,17 @@ import {MotiText, MotiView, useAnimationState, useDynamicAnimation} from "moti";
 interface MainTabsScreenProps {
   navigation: any;
 }
+
 interface TabBarButtonProps {
-  route: string;
-  label: string;
-  iconType: any;
-  nameIcon: string;
-  component: React.ReactNode;
+  accessibilityState: any;
+  onPress: any;
+  item: {
+    route: string;
+    label: string;
+    iconType: any;
+    nameIcon: string;
+    component: React.ReactNode;
+  };
 }
 
 const HomeStack = createNativeStackNavigator<RootStackParamList>();
@@ -123,11 +127,15 @@ const circle1 = {
 };
 const circle2 = {0: {scale: 1}, 1: {scale: 0}};
 
-const TabBarButton = ({item, onPress, accessibilityState}) => {
+const TabBarButton = ({
+  item,
+  onPress,
+  accessibilityState,
+}: TabBarButtonProps) => {
   const focused = accessibilityState.selected;
   const viewRef = useRef<null>(null);
-  const circleRef = useRef(null);
-  const textRef = useRef(null);
+  const circleRef = useRef<null>(null);
+  const textRef = useRef<null>(null);
 
   const viewAnimation = useDynamicAnimation(() => {
     return {
@@ -174,7 +182,7 @@ const TabBarButton = ({item, onPress, accessibilityState}) => {
             ref={circleRef}
             style={styles.circle}
           />
-          <Icon as={item.iconType} size={20} />
+          <Icon as={item.iconType} name={item.nameIcon} size={5} color="#fff" />
         </View>
         <MotiText state={textAnimation} ref={textRef} style={styles.text}>
           {item.label}
@@ -192,7 +200,6 @@ const MainTabsScreen = () => {
         tabBarActiveBackgroundColor: "#fff",
         tabBarStyle: styles.tabBar,
         tabBarInactiveTintColor: Color.secondary,
-        tabBarShowLabel: false,
         headerShown: false,
       }}>
       {tabArray.map((item, index) => (
@@ -202,10 +209,8 @@ const MainTabsScreen = () => {
           component={item.component}
           options={{
             tabBarLabel: item.label,
-            tabBarIcon: ({color, size}) => (
-              <Icons.Feather name={item.iconType} size={size} color={color} />
-            ),
             tabBarButton: props => <TabBarButton item={item} {...props} />,
+            headerShown: false,
           }}
         />
       ))}
@@ -227,16 +232,20 @@ const styles = StyleSheet.create({
     right: 16,
     left: 16,
     borderRadius: 16,
+    elevation: 10,
   },
   btn: {
     width: 50,
     height: 50,
     borderRadius: 25,
     borderWidth: 4,
-    borderColor: "#fff",
-    backgroundColor: "#fff",
+    borderColor: "red",
+    backgroundColor: "#222",
     justifyContent: "center",
     alignItems: "center",
+
+    zIndex: 10, // works on ios
+    elevation: 10, // works on android
   },
   circle: {
     ...StyleSheet.absoluteFillObject,

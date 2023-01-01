@@ -26,6 +26,7 @@ import {
   NativeModuleError,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import {useForm} from "react-hook-form";
 
 // import { auth } from "../../config/firebase";
 import {RootState} from "../../store";

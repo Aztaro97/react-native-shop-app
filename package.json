@@ -22,6 +22,8 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@types/react-native-dotenv": "^0.2.0",
     "@types/react-native-onboarding-swiper": "^1.1.4",
+    "@types/react-native-snap-carousel": "^3.8.5",
+    "deprecated-react-native-prop-types": "^4.0.0",
     "moti": "^0.21.0",
     "native-base": "^3.4.25",
     "react": "18.1.0",
@@ -34,10 +36,10 @@
     "react-native-reanimated": "^2.13.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "^3.18.2",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "12.1.1",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
-    "recyclerlistview": "^4.2.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
